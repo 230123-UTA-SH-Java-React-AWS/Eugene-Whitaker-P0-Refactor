@@ -130,9 +130,10 @@ public class EmployeeController {
     public ResponseEntity<? extends BaseInfo> processNewTicket(@PathVariable(value = "id") final UUID id,
             @RequestBody @Valid Ticket ticket, HttpServletRequest request) {
         Date date = new Date();
-        ticket.setEmployeeId(id);
+        Employee employee = employeeService.findById(id).get();
+        ticket.setEmployee(employee);
         ticket.setStatus(Status.PENDING);
-        ticket.setAddedTimestamp(DATE_FORMAT.format(new Timestamp(date.getTime())));
+        ticket.setDateAdded(DATE_FORMAT.format(new Timestamp(date.getTime())));
         try {
             Ticket newTicket = ticketService.save(ticket);
             ResponseInfo<Ticket> response = new ResponseInfo<Ticket>(
@@ -159,7 +160,7 @@ public class EmployeeController {
                 ticket.setId(ticketId);
                 ticket.setStatus(Status.PENDING);
                 ticket.setManagerId(null);
-                ticket.setProcessedTimestamp(null);
+                ticket.setDateProcessed(null);
                 Ticket newTicket = ticketService.save(ticket);
                 ResponseInfo<Ticket> response = new ResponseInfo<Ticket>(
                         DATE_FORMAT.format(new Timestamp(date.getTime())), HttpStatus.OK,

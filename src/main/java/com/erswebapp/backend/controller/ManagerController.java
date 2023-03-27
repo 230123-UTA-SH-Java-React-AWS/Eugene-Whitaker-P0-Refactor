@@ -139,12 +139,12 @@ public class ManagerController {
             case "APPROVED":
                 ticket.setStatus(Status.APPROVED);
                 ticket.setManagerId(managerId);
-                ticket.setProcessedTimestamp(DATE_FORMAT.format(new Timestamp(date.getTime())));
+                ticket.setDateProcessed(DATE_FORMAT.format(new Timestamp(date.getTime())));
                 break;
             case "DENIED":
                 ticket.setStatus(Status.DENIED);
                 ticket.setManagerId(managerId);
-                ticket.setProcessedTimestamp(DATE_FORMAT.format(new Timestamp(date.getTime())));
+                ticket.setDateProcessed(DATE_FORMAT.format(new Timestamp(date.getTime())));
                 break;
             default:
                 throw new InvalidActionException("The actions: " + action + " is incorrect");

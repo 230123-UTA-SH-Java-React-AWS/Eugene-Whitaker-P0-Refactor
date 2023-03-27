@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @MappedSuperclass
 public abstract class Account {
+
+    // for frontend type check
+    @Transient
+    private final String typeGaurd = "account";
+
     @Email
     @Column(nullable = false, unique = true)
     private String email;

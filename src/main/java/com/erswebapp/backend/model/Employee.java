@@ -3,6 +3,8 @@ package com.erswebapp.backend.model;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +24,8 @@ public class Employee extends Account {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToMany(mappedBy = "employeeId")
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
     private List<Ticket> tickets;
 
 }

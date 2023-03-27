@@ -15,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import lombok.AllArgsConstructor;
@@ -31,18 +32,22 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(targetEntity = Employee.class)
-    @JoinColumn(name = "employee_id", nullable = false, unique = false)
-    private UUID employeeId;
+    // for frontend type check
+    @Transient
+    private final String typeGaurd = "ticket";
 
-    @Column(nullable = false, unique = false)
-    private String addedTimestamp;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "employee_id", nullable = false, unique = false)
+    private Employee employee;
+
+    @Column(name = "date_added", nullable = false, unique = false)
+    private String dateAdded;
 
     @Column(name = "manager_id", nullable = true, unique = false)
     private UUID managerId;
 
-    @Column(nullable = true, unique = false)
-    private String processedTimestamp;
+    @Column(name = "date_processed", nullable = true, unique = false)
+    private String dateProcessed;
 
     @DecimalMin(value = "0.0")
     @Digits(integer = 4, fraction = 3)
@@ -57,7 +62,7 @@ public class Ticket {
     private Status status;
 
     @Convert(converter = ReimbursmentTypeConverter.class)
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private ReimbursmentType type;
 
     @JsonIgnore
